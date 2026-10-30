@@ -72,7 +72,6 @@ const KINDS: Record<string, Builder> = {
       <Person position={[w / 2 - 1.4, 0, d / 2 - 0.1]} role="staff" seed={8} rotation={Math.PI} />
       <Plant position={[-w / 2 + 0.6, 0, d / 2 - 0.6]} scale={1.2} />
       <Plant position={[0, 0, d / 2 - 0.6]} />
-      <Box2 />
     </>
   ),
   erbays: (w, d) => {
@@ -343,6 +342,3 @@ const KINDS: Record<string, Builder> = {
   },
 };
 
-function Box2() {
-  return null;
-}
