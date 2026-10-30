@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import * as THREE from "three";
 
 type V3 = [number, number, number];
+const O: V3 = [0, 0, 0];
 interface P { position?: V3; rotation?: number }
 
 // Shared materials (created once, reused everywhere for performance)
@@ -165,13 +166,13 @@ export function Person({ position = [0, 0, 0], rotation = 0, role = "visitor", p
   if (lie) {
     // head toward -z of bed local; caller positions on mattress top
     return (
-      <group position={position} rotation={[0, rotation, 0]} scale={s}>
+      <group position={position ?? O} rotation={[0, rotation, 0]} scale={s}>
         <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.12, 0.85]}>{body}</group>
       </group>
     );
   }
   return (
-    <group position={position} rotation={[0, rotation, 0]} scale={s}>
+    <group position={position ?? O} rotation={[0, rotation, 0]} scale={s}>
       {body}
     </group>
   );
@@ -181,7 +182,7 @@ export function Person({ position = [0, 0, 0], rotation = 0, role = "visitor", p
 export function Bed({ position, rotation = 0, occupant, blanket = MAT.blanketBlue, small = false, seed = 0, role = "patient" }: P & { occupant?: boolean; blanket?: THREE.Material; small?: boolean; seed?: number; role?: Role }) {
   const k = small ? 0.72 : 1;
   return (
-    <group position={position} rotation={[0, rotation, 0]} scale={[k, 1, k]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]} scale={[k, 1, k]}>
       {/* wheels + frame */}
       {[[-0.4, -0.9], [0.4, -0.9], [-0.4, 0.9], [0.4, 0.9]].map(([x, z], i) => (
         <Cyl key={i} r={0.04} h={0.05} p={[x, 0.04, z]} mat={MAT.rubber} rot={[0, 0, Math.PI / 2]} />
@@ -210,7 +211,7 @@ export function Bed({ position, rotation = 0, occupant, blanket = MAT.blanketBlu
 
 export function BedsideTable({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.45, 0.7, 0.42]} p={[0, 0.35, 0]} mat={MAT.lightWood} />
       <Box s={[0.4, 0.02, 0.37]} p={[0, 0.71, 0]} mat={MAT.white} />
       <Cyl r={0.04} h={0.12} p={[0.1, 0.78, 0]} mat={MAT.glass} />
@@ -220,7 +221,7 @@ export function BedsideTable({ position, rotation = 0 }: P) {
 
 export function Monitor({ position, rotation = 0, tall = 1.5 }: P & { tall?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Cyl r={0.22} h={0.04} p={[0, 0.03, 0]} mat={MAT.darkSteel} />
       <Cyl r={0.022} h={tall} p={[0, tall / 2, 0]} mat={MAT.steel} />
       <Box s={[0.42, 0.32, 0.08]} p={[0, tall + 0.1, 0]} mat={MAT.plastic} />
@@ -231,7 +232,7 @@ export function Monitor({ position, rotation = 0, tall = 1.5 }: P & { tall?: num
 
 export function Ventilator({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       {[[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]].map(([x, z], i) => (
         <Cyl key={i} r={0.035} h={0.04} p={[x, 0.035, z]} mat={MAT.rubber} />
       ))}
@@ -247,7 +248,7 @@ export function Ventilator({ position, rotation = 0 }: P) {
 
 export function IVPole({ position }: P) {
   return (
-    <group position={position}>
+    <group position={position ?? O}>
       <Cyl r={0.2} h={0.03} p={[0, 0.04, 0]} mat={MAT.darkSteel} />
       <Cyl r={0.015} h={1.9} p={[0, 0.95, 0]} mat={MAT.steel} />
       <Box s={[0.12, 0.2, 0.04]} p={[0.08, 1.75, 0]} mat={MAT.glass} />
@@ -258,7 +259,7 @@ export function IVPole({ position }: P) {
 
 export function Chair({ position, rotation = 0, mat = MAT.fabricTeal, arm = false }: P & { mat?: THREE.Material; arm?: boolean }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       {[[-0.2, -0.2], [0.2, -0.2], [-0.2, 0.2], [0.2, 0.2]].map(([x, z], i) => (
         <Box key={i} s={[0.03, 0.42, 0.03]} p={[x, 0.21, z]} mat={MAT.darkSteel} cast={false} />
       ))}
@@ -271,7 +272,7 @@ export function Chair({ position, rotation = 0, mat = MAT.fabricTeal, arm = fals
 
 export function Recliner({ position, rotation = 0, mat = MAT.fabricTeal }: P & { mat?: THREE.Material }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.75, 0.42, 0.8]} p={[0, 0.21, 0]} mat={MAT.darkSteel} />
       <Box s={[0.7, 0.14, 0.75]} p={[0, 0.48, 0.05]} mat={mat} />
       <mesh position={[0, 0.85, -0.36]} rotation={[-0.25, 0, 0]} material={mat} castShadow>
@@ -285,7 +286,7 @@ export function Recliner({ position, rotation = 0, mat = MAT.fabricTeal }: P & {
 
 export function Sofa({ position, rotation = 0, mat = MAT.fabricGrey, len = 1.8 }: P & { mat?: THREE.Material; len?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[len, 0.4, 0.8]} p={[0, 0.2, 0]} mat={mat} />
       <Box s={[len, 0.45, 0.2]} p={[0, 0.62, -0.3]} mat={mat} />
       {[-1, 1].map((s) => <Box key={s} s={[0.18, 0.55, 0.8]} p={[(len / 2) * s, 0.28, 0]} mat={mat} />)}
@@ -295,7 +296,7 @@ export function Sofa({ position, rotation = 0, mat = MAT.fabricGrey, len = 1.8 }
 
 export function SeatRow({ position, rotation = 0, n = 4, mat = MAT.fabricTeal }: P & { n?: number; mat?: THREE.Material }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[n * 0.55, 0.05, 0.08]} p={[0, 0.3, 0]} mat={MAT.steel} />
       {Array.from({ length: n }).map((_, i) => (
         <group key={i} position={[(i - (n - 1) / 2) * 0.55, 0, 0]}>
@@ -310,7 +311,7 @@ export function SeatRow({ position, rotation = 0, n = 4, mat = MAT.fabricTeal }:
 
 export function Desk({ position, rotation = 0, w = 1.4, computer = true }: P & { w?: number; computer?: boolean }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[w, 0.05, 0.7]} p={[0, 0.75, 0]} mat={MAT.lightWood} />
       <Box s={[w, 0.72, 0.05]} p={[0, 0.37, -0.32]} mat={MAT.white} />
       {[-1, 1].map((s) => <Box key={s} s={[0.05, 0.72, 0.66]} p={[(w / 2 - 0.03) * s, 0.37, 0]} mat={MAT.white} />)}
@@ -329,7 +330,7 @@ export function Desk({ position, rotation = 0, w = 1.4, computer = true }: P & {
 export function NursingStation({ position, rotation = 0, r = 1.6 }: P & { r?: number }) {
   const segs = 5;
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <mesh position={[0, 0.55, 0]} material={MAT.white} castShadow receiveShadow>
         <cylinderGeometry args={[r, r, 1.1, 32, 1, true, -Math.PI / 2, Math.PI]} />
       </mesh>
@@ -355,7 +356,7 @@ export function NursingStation({ position, rotation = 0, r = 1.6 }: P & { r?: nu
 
 export function Stretcher({ position, rotation = 0, occupant = false, seed = 0 }: P & { occupant?: boolean; seed?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       {[[-0.28, -0.8], [0.28, -0.8], [-0.28, 0.8], [0.28, 0.8]].map(([x, z], i) => (
         <group key={i}>
           <Cyl r={0.06} h={0.04} p={[x, 0.06, z]} mat={MAT.rubber} rot={[0, 0, Math.PI / 2]} />
@@ -373,7 +374,7 @@ export function Stretcher({ position, rotation = 0, occupant = false, seed = 0 }
 
 export function Wheelchair({ position, rotation = 0, occupant = false, seed = 0 }: P & { occupant?: boolean; seed?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       {[-1, 1].map((s) => (
         <mesh key={s} position={[0.3 * s, 0.3, -0.05]} rotation={[0, Math.PI / 2, 0]} material={MAT.darkSteel} castShadow>
           <torusGeometry args={[0.28, 0.025, 8, 24]} />
@@ -397,7 +398,7 @@ export function Curtain({ position, rotation = 0, len = 2.2, mat = MAT.curtain, 
     return g;
   }, [len, h]);
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <mesh geometry={geo} position={[0, 0.25 + h / 2, 0]} material={mat} />
       <Box s={[len, 0.03, 0.03]} p={[0, h + 0.28, 0]} mat={MAT.steel} cast={false} />
     </group>
@@ -406,7 +407,7 @@ export function Curtain({ position, rotation = 0, len = 2.2, mat = MAT.curtain, 
 
 export function CTScanner({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <mesh position={[0, 1.05, 0]} material={MAT.ctBody} castShadow>
         <torusGeometry args={[0.72, 0.32, 20, 40]} />
       </mesh>
@@ -422,7 +423,7 @@ export function CTScanner({ position, rotation = 0 }: P) {
 
 export function XRay({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.8, 0.7, 2.0]} p={[0, 0.35, 0]} mat={MAT.plastic} />
       <Box s={[0.2, 2.4, 0.2]} p={[-0.7, 1.2, 0]} mat={MAT.steel} />
       <Box s={[1.0, 0.2, 0.2]} p={[-0.2, 2.3, 0]} mat={MAT.steel} />
@@ -433,7 +434,7 @@ export function XRay({ position, rotation = 0 }: P) {
 
 export function ORTable({ position, rotation = 0, occupant = true, seed = 0 }: P & { occupant?: boolean; seed?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.6, 0.06, 0.8]} p={[0, 0.03, 0]} mat={MAT.darkSteel} />
       <Cyl r={0.12} h={0.75} p={[0, 0.42, 0]} mat={MAT.steel} />
       <Box s={[0.58, 0.1, 2.0]} p={[0, 0.85, 0]} mat={MAT.black} />
@@ -445,7 +446,7 @@ export function ORTable({ position, rotation = 0, occupant = true, seed = 0 }: P
 
 export function SurgicalLight({ position }: P) {
   return (
-    <group position={position}>
+    <group position={position ?? O}>
       <Cyl r={0.03} h={0.8} p={[0, 0.4, 0]} mat={MAT.steel} />
       {[-0.45, 0.45].map((x) => (
         <group key={x} position={[x, 0, 0]}>
@@ -462,7 +463,7 @@ export function SurgicalLight({ position }: P) {
 
 export function InstrumentTrolley({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.8, 0.03, 0.5]} p={[0, 0.95, 0]} mat={MAT.steel} />
       <Box s={[0.8, 0.03, 0.5]} p={[0, 0.4, 0]} mat={MAT.steel} />
       {[[-0.38, -0.23], [0.38, -0.23], [-0.38, 0.23], [0.38, 0.23]].map(([x, z], i) => (
@@ -475,7 +476,7 @@ export function InstrumentTrolley({ position, rotation = 0 }: P) {
 
 export function AnaesthesiaMachine({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.7, 1.2, 0.6]} p={[0, 0.6, 0]} mat={MAT.ctBody} />
       <Box s={[0.6, 0.4, 0.05]} p={[0, 1.45, 0.1]} mat={MAT.black} />
       <Box s={[0.54, 0.34, 0.01]} p={[0, 1.45, 0.13]} mat={MAT.screen} cast={false} />
@@ -486,7 +487,7 @@ export function AnaesthesiaMachine({ position, rotation = 0 }: P) {
 
 export function Sink({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[1.8, 0.85, 0.6]} p={[0, 0.42, 0]} mat={MAT.steel} />
       {[-0.5, 0.5].map((x) => <Cyl key={x} r={0.02} h={0.35} p={[x, 1.0, -0.2]} mat={MAT.steel} />)}
       <Box s={[1.8, 0.7, 0.04]} p={[0, 1.4, -0.28]} mat={MAT.glass} />
@@ -496,7 +497,7 @@ export function Sink({ position, rotation = 0 }: P) {
 
 export function Incubator({ position, rotation = 0, baby = true, seed = 0 }: P & { baby?: boolean; seed?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.7, 0.75, 0.5]} p={[0, 0.38, 0]} mat={MAT.plastic} />
       <Box s={[0.75, 0.1, 0.55]} p={[0, 0.8, 0]} mat={MAT.white} />
       <Box s={[0.72, 0.38, 0.5]} p={[0, 1.05, 0]} mat={MAT.glass} />
@@ -513,7 +514,7 @@ export function Incubator({ position, rotation = 0, baby = true, seed = 0 }: P &
 
 export function Crib({ position, rotation = 0, seed = 0 }: P & { seed?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.5, 0.65, 0.4]} p={[0, 0.33, 0]} mat={MAT.white} />
       <Box s={[0.55, 0.3, 0.8]} p={[0, 0.85, 0]} mat={MAT.glass} />
       <mesh position={[0, 0.8, -0.2]} material={m(SKIN[(seed + 2) % SKIN.length])}>
@@ -525,7 +526,7 @@ export function Crib({ position, rotation = 0, seed = 0 }: P & { seed?: number }
 
 export function BloodFridge({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[1.0, 2.0, 0.7]} p={[0, 1.0, 0]} mat={MAT.white} />
       {[0.5, 0.9, 1.3, 1.7].map((y) => (
         <group key={y}>
@@ -541,7 +542,7 @@ export function BloodFridge({ position, rotation = 0 }: P) {
 
 export function LabBench({ position, rotation = 0, len = 3 }: P & { len?: number }) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[len, 0.9, 0.7]} p={[0, 0.45, 0]} mat={MAT.white} />
       <Box s={[len, 0.04, 0.72]} p={[0, 0.92, 0]} mat={MAT.black} />
       <Box s={[0.5, 0.4, 0.4]} p={[-len / 3, 1.14, -0.05]} mat={MAT.plastic} />
@@ -553,7 +554,7 @@ export function LabBench({ position, rotation = 0, len = 3 }: P & { len?: number
 
 export function Plant({ position, scale = 1 }: P & { scale?: number }) {
   return (
-    <group position={position} scale={scale}>
+    <group position={position ?? O} scale={scale}>
       <Cyl r={0.2} rt={0.22} rb={0.16} h={0.4} p={[0, 0.2, 0]} mat={MAT.pot} />
       <mesh position={[0, 0.75, 0]} material={MAT.plant} castShadow>
         <icosahedronGeometry args={[0.38, 1]} />
@@ -567,7 +568,7 @@ export function Plant({ position, scale = 1 }: P & { scale?: number }) {
 
 export function CoffeeTable({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[1.0, 0.05, 0.55]} p={[0, 0.42, 0]} mat={MAT.wood} />
       <Box s={[0.9, 0.4, 0.45]} p={[0, 0.2, 0]} mat={MAT.darkSteel} />
     </group>
@@ -577,7 +578,7 @@ export function CoffeeTable({ position, rotation = 0 }: P) {
 export function ToyBlocks({ position }: P) {
   const cols = ["#e85d5d", "#f2c14e", "#5db0e8", "#7ac66b", "#b07ae8"];
   return (
-    <group position={position}>
+    <group position={position ?? O}>
       <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]} material={m("#f6e3a1", { roughness: 1 })} receiveShadow>
         <circleGeometry args={[1.4, 32]} />
       </mesh>
@@ -595,7 +596,7 @@ export function ToyBlocks({ position }: P) {
 
 export function Ambulance({ position, rotation = 0 }: P) {
   return (
-    <group position={position} rotation={[0, rotation, 0]}>
+    <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[2.2, 2.3, 4.0]} p={[0, 1.55, -0.6]} mat={MAT.white} />
       <Box s={[2.1, 1.5, 1.6]} p={[0, 1.15, 2.1]} mat={MAT.white} />
       <Box s={[1.9, 0.6, 0.05]} p={[0, 1.5, 2.92]} mat={MAT.glass} />
