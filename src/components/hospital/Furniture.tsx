@@ -202,8 +202,8 @@ export function Bed({ position, rotation = 0, occupant, blanket = MAT.blanketBlu
       <mesh position={[0, 0.58, -0.78]} material={MAT.white} castShadow>
         <boxGeometry args={[0.6, 0.1, 0.32]} />
       </mesh>
-      <Box s={[0.9, 0.06, 1.2]} p={[0, occupant ? 0.66 : 0.56, 0.36]} mat={blanket} />
-      {occupant && <Person position={[0, 0.42, -0.95]} role={small ? "child" : role} pose="lie" seed={seed} scale={small ? 1.2 : 0.95} />}
+      <Box s={[0.9, 0.06, 1.2]} p={[0, occupant ? 0.72 : 0.56, 0.36]} mat={blanket} />
+      {occupant && <Person position={[0, 0.54, small ? 0.05 : 0]} role={small ? "child" : role} pose="lie" seed={seed} scale={small ? 1.25 : 0.95} />}
     </group>
   );
 }
@@ -365,8 +365,8 @@ export function Stretcher({ position, rotation = 0, occupant = false, seed = 0 }
       <Box s={[0.62, 0.06, 1.9]} p={[0, 0.82, 0]} mat={MAT.steel} />
       <Box s={[0.6, 0.08, 1.85]} p={[0, 0.88, 0]} mat={MAT.white} />
       {[-1, 1].map((s) => <Box key={s} s={[0.025, 0.1, 1.5]} p={[0.32 * s, 0.98, 0]} mat={MAT.darkSteel} cast={false} />)}
-      {occupant && <Person position={[0, 0.84, -0.9]} role="patient" pose="lie" seed={seed} scale={0.92} />}
-      {occupant && <Box s={[0.6, 0.05, 0.9]} p={[0, 1.08, 0.45]} mat={MAT.blanketYellow} />}
+      {occupant && <Person position={[0, 0.92, 0]} role="patient" pose="lie" seed={seed} scale={0.92} />}
+      {occupant && <Box s={[0.6, 0.05, 0.9]} p={[0, 1.12, 0.45]} mat={MAT.blanketYellow} />}
     </group>
   );
 }
@@ -437,8 +437,8 @@ export function ORTable({ position, rotation = 0, occupant = true, seed = 0 }: P
       <Box s={[0.6, 0.06, 0.8]} p={[0, 0.03, 0]} mat={MAT.darkSteel} />
       <Cyl r={0.12} h={0.75} p={[0, 0.42, 0]} mat={MAT.steel} />
       <Box s={[0.58, 0.1, 2.0]} p={[0, 0.85, 0]} mat={MAT.black} />
-      {occupant && <Person position={[0, 0.8, -0.95]} role="patient" pose="lie" seed={seed} />}
-      {occupant && <Box s={[0.75, 0.04, 1.4]} p={[0, 1.08, 0.3]} mat={m("#4f8f7a", { roughness: 1 })} />}
+      {occupant && <Person position={[0, 0.9, 0]} role="patient" pose="lie" seed={seed} />}
+      {occupant && <Box s={[0.75, 0.04, 1.4]} p={[0, 1.12, 0.3]} mat={m("#4f8f7a", { roughness: 1 })} />}
     </group>
   );
 }
