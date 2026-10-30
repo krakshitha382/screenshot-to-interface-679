@@ -209,7 +209,7 @@ const KINDS: Record<string, Builder> = {
   ),
   wardA: (w, d) => {
     // structured: two facing rows of 4 beds
-    const xs = spread(4, w - 6);
+    const xs: number[] = spread(4, w - 6);
     return (
       <>
         {xs.map((x, i) => (
@@ -221,13 +221,13 @@ const KINDS: Record<string, Builder> = {
             <BedsideTable position={[x + 0.8, 0, -d / 2 + 0.6]} />
           </group>
         ))}
-        <Chair position={[xs[1] - 0.9, 0, d / 2 - 1.2]} rotation={-Math.PI / 2} mat={MAT.fabricOrange} />
-        <Person position={[xs[1] - 0.9, 0, d / 2 - 1.2]} rotation={Math.PI / 2} role="visitor" pose="sit" seed={120} />
-        <Chair position={[xs[3] - 0.9, 0, -d / 2 + 1.6]} rotation={-Math.PI / 2} mat={MAT.fabricOrange} />
-        <Person position={[xs[3] - 0.9, 0, -d / 2 + 1.6]} rotation={Math.PI / 2} role="visitor" pose="sit" seed={121} />
-        <Person position={[xs[0] + 0.8, 0, d / 2 - 2.2]} role="nurse" pose="lean" seed={122} rotation={Math.PI} />
-        <Person position={[xs[2], 0, 0.2]} role="doctor" pose="walk" seed={123} rotation={Math.PI / 2} />
-        <IVPole position={[xs[3] - 0.7, 0, d / 2 - 0.7]} />
+        <Chair position={[xs[1]! - 0.9, 0, d / 2 - 1.2]} rotation={-Math.PI / 2} mat={MAT.fabricOrange} />
+        <Person position={[xs[1]! - 0.9, 0, d / 2 - 1.2]} rotation={Math.PI / 2} role="visitor" pose="sit" seed={120} />
+        <Chair position={[xs[3]! - 0.9, 0, -d / 2 + 1.6]} rotation={-Math.PI / 2} mat={MAT.fabricOrange} />
+        <Person position={[xs[3]! - 0.9, 0, -d / 2 + 1.6]} rotation={Math.PI / 2} role="visitor" pose="sit" seed={121} />
+        <Person position={[xs[0]! + 0.8, 0, d / 2 - 2.2]} role="nurse" pose="lean" seed={122} rotation={Math.PI} />
+        <Person position={[xs[2]!, 0, 0.2]} role="doctor" pose="walk" seed={123} rotation={Math.PI / 2} />
+        <IVPole position={[xs[3]! - 0.7, 0, d / 2 - 0.7]} />
       </>
     );
   },
@@ -315,13 +315,13 @@ const KINDS: Record<string, Builder> = {
     </>
   ),
   paediatrics: (w, d) => {
-    const xs = spread(8, w - 14);
+    const xs: number[] = spread(8, w - 14);
     const blankets = [MAT.blanketYellow, MAT.blanketPink, MAT.blanketTeal, MAT.blanketBlue];
     return (
       <>
         {xs.map((x, i) => (
           <group key={i}>
-            <Bed position={[x, 0, d / 2 - 1.1]} rotation={Math.PI} small occupant={i % 4 !== 3} seed={210 + i} blanket={blankets[i % 4]} />
+            <Bed position={[x, 0, d / 2 - 1.1]} rotation={Math.PI} small occupant={i % 4 !== 3} seed={210 + i} blanket={blankets[i % 4]!} />
             <Chair position={[x + 0.85, 0, d / 2 - 1.5]} rotation={Math.PI} mat={MAT.fabricOrange} />
             {i % 2 === 0 && <Person position={[x + 0.85, 0, d / 2 - 1.5]} rotation={Math.PI} role="visitor" pose="sit" seed={220 + i} />}
           </group>
@@ -335,8 +335,8 @@ const KINDS: Record<string, Builder> = {
         <Person position={[w / 2 - 1.05, 0, 2.0]} rotation={-Math.PI / 2} role="visitor" pose="sit" seed={233} />
         <NursingStation position={[-w / 2 + 3, 0, -0.5]} rotation={Math.PI / 2} r={1.4} />
         <Person position={[-w / 2 + 2.4, 0, -0.5]} role="nurse" seed={234} rotation={-Math.PI / 2} />
-        <Person position={[xs[2] + 0.5, 0, d / 2 - 2.3]} role="nurse" pose="lean" seed={235} rotation={Math.PI} />
-        <Person position={[xs[5], 0, 0]} role="doctor" pose="walk" seed={236} rotation={-Math.PI / 2} />
+        <Person position={[xs[2]! + 0.5, 0, d / 2 - 2.3]} role="nurse" pose="lean" seed={235} rotation={Math.PI} />
+        <Person position={[xs[5]!, 0, 0]} role="doctor" pose="walk" seed={236} rotation={-Math.PI / 2} />
       </>
     );
   },

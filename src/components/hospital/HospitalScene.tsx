@@ -89,7 +89,7 @@ const Room = memo(function Room({ dept, selected, onSelect }: { dept: Department
   const [hover, setHover] = useState(false);
   const w = dept.x1 - dept.x0, d = dept.z1 - dept.z0;
   const tex = useTileTexture(DEPT_FLOOR[dept.kind] ?? "#e5e5e5", "rgba(120,130,140,0.25)", Math.round(w / 2.5));
-  const floorMat = useMemo(() => new THREE.MeshStandardMaterial({ map: tex ?? undefined, roughness: 0.55, metalness: 0.02 }), [tex]);
+  const floorMat = useMemo(() => new THREE.MeshStandardMaterial({ map: tex, roughness: 0.55, metalness: 0.02 }), [tex]);
   if (tex) tex.repeat.set(w / 2.5, d / 2.5);
   const backRow = dept.z1 <= CORRIDOR.z0 + 0.01;
   const corrZ = backRow ? dept.z1 : dept.z0;
@@ -252,7 +252,7 @@ function Site() {
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.32, 0]} receiveShadow>
         <planeGeometry args={[200, 200]} />
-        <meshStandardMaterial map={groundTex ?? undefined} color="#7d8f84" roughness={1} />
+        <meshStandardMaterial map={groundTex} color="#7d8f84" roughness={1} />
       </mesh>
       {/* plaza + road */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.3, 0]} receiveShadow>
@@ -371,7 +371,7 @@ export default function HospitalScene({ focusFloor, selectedDept, hidden, explod
             key={f.index}
             index={f.index}
             y={floorY(f.index, exploded)}
-            visible={visibility[f.index]}
+            visible={!!visibility[f.index]}
             focused={focusFloor === f.index}
             dim={false}
             selectedDept={selectedDept}

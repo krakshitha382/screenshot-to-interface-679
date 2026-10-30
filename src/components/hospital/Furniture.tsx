@@ -78,8 +78,8 @@ export function Person({ position = [0, 0, 0], rotation = 0, role = "visitor", p
   const mats = useMemo(() => {
     const c = roleColors(role, seed);
     return {
-      skin: m(SKIN[(seed * 5 + 1) % SKIN.length], { roughness: 0.7 }),
-      hair: m(HAIR[(seed * 3 + 2) % HAIR.length], { roughness: 0.9 }),
+      skin: m(SKIN[(seed * 5 + 1) % SKIN.length]!, { roughness: 0.7 }),
+      hair: m(HAIR[(seed * 3 + 2) % HAIR.length]!, { roughness: 0.9 }),
       top: m(c.top, { roughness: 0.85 }),
       pants: m(c.pants, { roughness: 0.85 }),
       shoe: m(role === "surgeon" || role === "nurse" ? "#e8e8e8" : "#2a2522"),
@@ -392,7 +392,7 @@ export function Wheelchair({ position, rotation = 0, occupant = false, seed = 0 
 export function Curtain({ position, rotation = 0, len = 2.2, mat = MAT.curtain, h = 1.9 }: P & { len?: number; mat?: THREE.Material; h?: number }) {
   const geo = useMemo(() => {
     const g = new THREE.PlaneGeometry(len, h, 24, 1);
-    const pos = g.attributes.position;
+    const pos = g.getAttribute("position");
     for (let i = 0; i < pos.count; i++) pos.setZ(i, Math.sin(pos.getX(i) * 9) * 0.05);
     g.computeVertexNormals();
     return g;
