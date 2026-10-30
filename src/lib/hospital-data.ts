@@ -45,7 +45,7 @@ export const DEPARTMENTS: Department[] = [
   { id: "theatre", name: "Operating Theatre", floor: 1, kind: "theatre", x0: -6, x1: 21.6, z0: B, z1: CB, facilities: ["2 operating tables", "Surgical lights", "Anaesthesia"] },
   // 2F
   { id: "wardA", name: "General Ward A", floor: 2, kind: "wardA", x0: -21.6, x1: 2, z0: CF, z1: F, facilities: ["Bay layout", "Privacy curtains"], beds: 8 },
-  { id: "wardB", name: "General Ward B", floor: 2, kind: "wardB", x0: -21.6, x1: 6, z0: B, z1: CB, facilities: ["Twin rooms", "Visitor seating"], beds: 6 },
+  { id: "wardB", name: "General Ward B", floor: 2, kind: "wardB", x0: -21.6, x1: 21.6, z0: B, z1: CB, facilities: ["Twin rooms", "Visitor seating"], beds: 6 },
   { id: "daycare", name: "Day Care", floor: 2, kind: "daycare", x0: 2, x1: 21.6, z0: CF, z1: F, facilities: ["Recliner chairs", "Infusion stations"] },
   // 3F
   { id: "maternity", name: "Maternity Ward", floor: 3, kind: "maternity", x0: -21.6, x1: 4, z0: B, z1: CB, facilities: ["Private rooms", "Labour beds", "Nursing station"], beds: 4 },
