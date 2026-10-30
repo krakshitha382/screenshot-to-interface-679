@@ -46,7 +46,7 @@ const Box = ({ s, p, mat, cast = true }: { s: V3; p: V3; mat: THREE.Material; ca
   </mesh>
 );
 const Cyl = ({ r, h, p, mat, rt, rb, rot }: { r: number; h: number; p: V3; mat: THREE.Material; rt?: number; rb?: number; rot?: V3 }) => (
-  <mesh position={p} rotation={rot} material={mat} castShadow>
+  <mesh position={p} rotation={rot ?? O} material={mat} castShadow>
     <cylinderGeometry args={[rt ?? r, rb ?? r, h, 14]} />
   </mesh>
 );
@@ -61,7 +61,7 @@ const VISITOR_TOPS = ["#3d5a80", "#9c4f4f", "#5b7c4a", "#c9a24b", "#6b5b95", "#4
 const VISITOR_PANTS = ["#2c3440", "#3b3b3b", "#4d5a6a", "#6a5844", "#1f2a3a"];
 
 const roleColors = (role: Role, seed: number) => {
-  const pick = <T,>(a: T[], k = 0) => a[(seed * 7 + k * 13) % a.length];
+  const pick = <T,>(a: T[], k = 0): T => a[(seed * 7 + k * 13) % a.length]!;
   switch (role) {
     case "doctor": return { top: "#f4f6f7", pants: pick(["#2a3b4f", "#3b4a5a", "#1e2833"]), coat: true };
     case "nurse": return { top: pick(["#2f8f9d", "#3a7bbf", "#4a9a8a"]), pants: pick(["#2f8f9d", "#3a7bbf", "#4a9a8a"]), coat: false };
@@ -184,11 +184,11 @@ export function Bed({ position, rotation = 0, occupant, blanket = MAT.blanketBlu
   return (
     <group position={position ?? O} rotation={[0, rotation, 0]} scale={[k, 1, k]}>
       {/* wheels + frame */}
-      {[[-0.4, -0.9], [0.4, -0.9], [-0.4, 0.9], [0.4, 0.9]].map(([x, z], i) => (
+      {[[-0.4, -0.9], [0.4, -0.9], [-0.4, 0.9], [0.4, 0.9]].map(([x = 0, z = 0], i) => (
         <Cyl key={i} r={0.04} h={0.05} p={[x, 0.04, z]} mat={MAT.rubber} rot={[0, 0, Math.PI / 2]} />
       ))}
       <Box s={[0.92, 0.12, 2.0]} p={[0, 0.32, 0]} mat={MAT.steel} />
-      {[[-0.4, -0.9], [0.4, -0.9], [-0.4, 0.9], [0.4, 0.9]].map(([x, z], i) => (
+      {[[-0.4, -0.9], [0.4, -0.9], [-0.4, 0.9], [0.4, 0.9]].map(([x = 0, z = 0], i) => (
         <Box key={i} s={[0.04, 0.26, 0.04]} p={[x, 0.18, z]} mat={MAT.darkSteel} cast={false} />
       ))}
       <Box s={[0.88, 0.16, 1.94]} p={[0, 0.46, 0]} mat={MAT.linen} />
@@ -233,7 +233,7 @@ export function Monitor({ position, rotation = 0, tall = 1.5 }: P & { tall?: num
 export function Ventilator({ position, rotation = 0 }: P) {
   return (
     <group position={position ?? O} rotation={[0, rotation, 0]}>
-      {[[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]].map(([x, z], i) => (
+      {[[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]].map(([x = 0, z = 0], i) => (
         <Cyl key={i} r={0.035} h={0.04} p={[x, 0.035, z]} mat={MAT.rubber} />
       ))}
       <Cyl r={0.025} h={0.6} p={[0, 0.35, 0]} mat={MAT.steel} />
@@ -260,7 +260,7 @@ export function IVPole({ position }: P) {
 export function Chair({ position, rotation = 0, mat = MAT.fabricTeal, arm = false }: P & { mat?: THREE.Material; arm?: boolean }) {
   return (
     <group position={position ?? O} rotation={[0, rotation, 0]}>
-      {[[-0.2, -0.2], [0.2, -0.2], [-0.2, 0.2], [0.2, 0.2]].map(([x, z], i) => (
+      {[[-0.2, -0.2], [0.2, -0.2], [-0.2, 0.2], [0.2, 0.2]].map(([x = 0, z = 0], i) => (
         <Box key={i} s={[0.03, 0.42, 0.03]} p={[x, 0.21, z]} mat={MAT.darkSteel} cast={false} />
       ))}
       <Box s={[0.48, 0.07, 0.46]} p={[0, 0.44, 0]} mat={mat} />
@@ -357,7 +357,7 @@ export function NursingStation({ position, rotation = 0, r = 1.6 }: P & { r?: nu
 export function Stretcher({ position, rotation = 0, occupant = false, seed = 0 }: P & { occupant?: boolean; seed?: number }) {
   return (
     <group position={position ?? O} rotation={[0, rotation, 0]}>
-      {[[-0.28, -0.8], [0.28, -0.8], [-0.28, 0.8], [0.28, 0.8]].map(([x, z], i) => (
+      {[[-0.28, -0.8], [0.28, -0.8], [-0.28, 0.8], [0.28, 0.8]].map(([x = 0, z = 0], i) => (
         <group key={i}>
           <Cyl r={0.06} h={0.04} p={[x, 0.06, z]} mat={MAT.rubber} rot={[0, 0, Math.PI / 2]} />
           <Box s={[0.03, 0.75, 0.03]} p={[x, 0.45, z * 0.7]} mat={MAT.steel} cast={false} />
@@ -466,7 +466,7 @@ export function InstrumentTrolley({ position, rotation = 0 }: P) {
     <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.8, 0.03, 0.5]} p={[0, 0.95, 0]} mat={MAT.steel} />
       <Box s={[0.8, 0.03, 0.5]} p={[0, 0.4, 0]} mat={MAT.steel} />
-      {[[-0.38, -0.23], [0.38, -0.23], [-0.38, 0.23], [0.38, 0.23]].map(([x, z], i) => (
+      {[[-0.38, -0.23], [0.38, -0.23], [-0.38, 0.23], [0.38, 0.23]].map(([x = 0, z = 0], i) => (
         <Box key={i} s={[0.02, 0.95, 0.02]} p={[x, 0.48, z]} mat={MAT.steel} cast={false} />
       ))}
       <Box s={[0.6, 0.02, 0.35]} p={[0, 0.975, 0]} mat={m("#3d7fa8")} cast={false} />
@@ -503,7 +503,7 @@ export function Incubator({ position, rotation = 0, baby = true, seed = 0 }: P &
       <Box s={[0.72, 0.38, 0.5]} p={[0, 1.05, 0]} mat={MAT.glass} />
       <Box s={[0.4, 0.06, 0.2]} p={[0, 0.88, 0]} mat={MAT.blanketYellow} />
       {baby && (
-        <mesh position={[-0.18, 0.92, 0]} material={m(SKIN[seed % SKIN.length])}>
+        <mesh position={[-0.18, 0.92, 0]} material={m(SKIN[seed % SKIN.length]!)}>
           <sphereGeometry args={[0.06, 10, 8]} />
         </mesh>
       )}
@@ -517,7 +517,7 @@ export function Crib({ position, rotation = 0, seed = 0 }: P & { seed?: number }
     <group position={position ?? O} rotation={[0, rotation, 0]}>
       <Box s={[0.5, 0.65, 0.4]} p={[0, 0.33, 0]} mat={MAT.white} />
       <Box s={[0.55, 0.3, 0.8]} p={[0, 0.85, 0]} mat={MAT.glass} />
-      <mesh position={[0, 0.8, -0.2]} material={m(SKIN[(seed + 2) % SKIN.length])}>
+      <mesh position={[0, 0.8, -0.2]} material={m(SKIN[(seed + 2) % SKIN.length]!)}>
         <sphereGeometry args={[0.06, 10, 8]} />
       </mesh>
     </group>
@@ -603,7 +603,7 @@ export function Ambulance({ position, rotation = 0 }: P) {
       <Box s={[2.22, 0.3, 5.6]} p={[0, 1.1, 0.2]} mat={MAT.red} />
       <Box s={[1.4, 0.15, 0.4]} p={[0, 2.78, 0.9]} mat={m("#ff3344", { emissive: "#ff2233", emissiveIntensity: 1.5 })} />
       <Box s={[0.5, 0.5, 0.02]} p={[0, 2.0, -2.61]} mat={MAT.red} />
-      {[[-1, 1.8], [1, 1.8], [-1, -1.6], [1, -1.6]].map(([x, z], i) => (
+      {[[-1, 1.8], [1, 1.8], [-1, -1.6], [1, -1.6]].map(([x = 0, z = 0], i) => (
         <Cyl key={i} r={0.4} h={0.3} p={[x, 0.4, z]} mat={MAT.rubber} rot={[0, 0, Math.PI / 2]} />
       ))}
     </group>

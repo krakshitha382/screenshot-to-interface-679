@@ -96,7 +96,7 @@ function Index() {
         <aside className="twin-panel">
           <div className="twin-panel__head">
             <div>
-              <small>{FLOORS[dept.floor].code} · {FLOORS[dept.floor].subtitle}</small>
+              <small>{FLOORS[dept.floor]?.code} · {FLOORS[dept.floor]?.subtitle}</small>
               <h2>{dept.name}</h2>
             </div>
             <button aria-label="Close" onClick={() => setSelectedDept(null)}>×</button>

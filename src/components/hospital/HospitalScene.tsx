@@ -236,8 +236,8 @@ function FloorLevel({ index, y, visible, focused, dim, selectedDept, onSelectDep
       {/* roof parapet on top floor */}
       {top && <mesh position={[0, 3.3, -HD + 0.1]} material={cyanStrip}><boxGeometry args={[BUILDING.w, 0.05, 0.05]} /></mesh>}
       {dim && <mesh position={[0, 1.6, 0]} material={dimMat}><boxGeometry args={[BUILDING.w + 0.8, 3.4, BUILDING.d + 0.8]} /></mesh>}
-      <Html position={[-HW - 1.2, 0.4, HD]} center distanceFactor={40} zIndexRange={[10, 0]}>
-        <div className={`floor-tag ${focused ? "floor-tag--active" : ""}`}>{FLOORS[index].code}</div>
+      <Html position={[HW + 1.4, 0.4, HD]} center distanceFactor={40} zIndexRange={[10, 0]}>
+        <div className={`floor-tag ${focused ? "floor-tag--active" : ""}`}>{FLOORS[index]?.code}</div>
       </Html>
     </group>
   );
@@ -273,7 +273,7 @@ function Site() {
       <group position={[-HW - 3.5, 0, -6]}>
         <mesh position={[0, 3.6, 0]} material={slabEdge} castShadow><boxGeometry args={[7, 0.25, 8]} /></mesh>
         <mesh position={[0, 3.45, 3.95]} material={cyanStrip}><boxGeometry args={[7, 0.06, 0.06]} /></mesh>
-        {[[-3.2, -3.6], [-3.2, 3.6]].map(([x, z], i) => (
+        {[[-3.2, -3.6], [-3.2, 3.6]].map(([x = 0, z = 0], i) => (
           <mesh key={i} position={[x, 1.7, z]} material={frameMat} castShadow><boxGeometry args={[0.25, 3.6, 0.25]} /></mesh>
         ))}
         <Html position={[0, 4.4, 0]} center distanceFactor={40} zIndexRange={[10, 0]}><div className="site-sign">EMERGENCY</div></Html>
@@ -281,7 +281,7 @@ function Site() {
       </group>
       <Ambulance position={[-HW - 10.5, -0.3, 14]} rotation={0} />
       {/* trees */}
-      {[[-30, 18], [-30, -18], [26, 17], [27, -15], [10, 19], [-8, 19], [26, 3], [-30, 6]].map(([x, z], i) => (
+      {[[-30, 18], [-30, -18], [26, 17], [27, -15], [10, 19], [-8, 19], [26, 3], [-30, 6]].map(([x = 0, z = 0], i) => (
         <Plant key={i} position={[x, -0.3, z]} scale={2.4 + (i % 3) * 0.4} />
       ))}
     </group>
@@ -339,7 +339,7 @@ export default function HospitalScene({ focusFloor, selectedDept, hidden, explod
         shadows
         dpr={[1, 1.75]}
         camera={{ position: [46, 42, 54], fov: 32, near: 0.5, far: 400 }}
-        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05 }}
+        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.9 }}
         onPointerMissed={() => onSelectDept(null)}
       >
         <color attach="background" args={["#0a1520"]} />

@@ -63,7 +63,7 @@ const KINDS: Record<string, Builder> = {
       {/* seated people, varied */}
       {[
         [-4.5, -1.5], [-3.4, -1.5], [2.3, -1.5], [3.9, -1.5], [-2.3, 1.2], [3.4, 1.2], [4.5, 1.2], [-4.5, 3.6], [-3.9, 3.6], [2.8, 3.6],
-      ].map(([x, z], i) => (
+      ].map(([x = 0, z = 0], i) => (
         <Person key={i} position={[x + (x < 0 ? 0 : 0), 0, z + 0.05]} rotation={Math.PI} role={i === 4 ? "patient" : "visitor"} pose="sit" seed={i * 3 + 1} />
       ))}
       <Person position={[-1.2, 0, 4.8]} role="child" seed={2} rotation={2} />
